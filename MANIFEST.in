@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include frappe_azure_storage *.css
+recursive-include frappe_azure_storage *.csv
+recursive-include frappe_azure_storage *.html
+recursive-include frappe_azure_storage *.ico
+recursive-include frappe_azure_storage *.js
+recursive-include frappe_azure_storage *.json
+recursive-include frappe_azure_storage *.md
+recursive-include frappe_azure_storage *.png
+recursive-include frappe_azure_storage *.py
+recursive-include frappe_azure_storage *.svg
+recursive-include frappe_azure_storage *.txt
+recursive-exclude frappe_azure_storage *.pyc
