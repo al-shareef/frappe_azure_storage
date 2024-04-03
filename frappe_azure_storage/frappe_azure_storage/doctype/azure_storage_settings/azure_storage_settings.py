@@ -4,15 +4,13 @@
 from __future__ import unicode_literals
 
 import os
-from abrajbay.utils import todays_date, todays_date_path
-
-from numpy import False_
 
 import frappe
 from frappe import _
 from frappe.utils import cint
 from frappe.model.document import Document
 from azure.storage.blob import ContainerClient
+from frappe.utils.data import now_datetime
 from rq.timeouts import JobTimeoutException
 from frappe.integrations.offsite_backup_utils import (
 	generate_files_backup,
@@ -32,6 +30,11 @@ class AzureStorageSettings(Document):
 	@frappe.whitelist()
 	def back_up_azure(self,retry_count=0):
 		take_backups_azure(retry_count)
+
+def todays_date() : return now_datetime().strftime("%Y%m%d")
+def todays_date_path() : 
+    _ = now_datetime()
+    return f"{_.strftime('%Y')}/{_.strftime('%m-%B')}/{_.strftime('%d')}"
 
 
 @frappe.whitelist()
@@ -94,24 +97,24 @@ def take_backups_azure(retry_count=0, with_files = False):
 
 
 def take_ab_back_up(folder, conn):
-	from abrajbay.utils.backups import BackupGenerator
-	from frappe.utils import get_backups_path
-	odb = BackupGenerator(
-		frappe.conf.ab_db_name,
-		frappe.conf.ab_db_user,
-		frappe.conf.ab_db_password,
-		db_host=frappe.conf.ab_db_host,
-		db_type=frappe.conf.db_type,
-		db_port=frappe.conf.ab_db_port,
-	)
-	try:
-		odb.take_dump()
-		filename = os.path.join(get_backups_path(), os.path.basename(odb.backup_path_db))
-		upload_file_to_azure(filename, folder, conn)
-	except Exception as ex:
-		frappe.log_error()
-		print("take_ab_back_up: %s" % (ex))
-	
+	# from abrajbay.utils.backups import BackupGenerator
+	# from frappe.utils import get_backups_path
+	# odb = BackupGenerator(
+	# 	frappe.conf.ab_db_name,
+	# 	frappe.conf.ab_db_user,
+	# 	frappe.conf.ab_db_password,
+	# 	db_host=frappe.conf.ab_db_host,
+	# 	db_type=frappe.conf.db_type,
+	# 	db_port=frappe.conf.ab_db_port,
+	# )
+	# try:
+	# 	odb.take_dump()
+	# 	filename = os.path.join(get_backups_path(), os.path.basename(odb.backup_path_db))
+	# 	upload_file_to_azure(filename, folder, conn)
+	# except Exception as ex:
+	# 	frappe.log_error()
+	# 	print("take_ab_back_up: %s" % (ex))
+	pass
 
 
 def notify():
