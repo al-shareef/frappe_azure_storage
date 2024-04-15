@@ -180,17 +180,17 @@ def backup_to_azure(with_files = False):
 def upload_file_to_azure(filename, folder, conn):
 	# destpath = os.path.join(folder, os.path.basename(filename))
 	site_name = frappe.local.site
-	dPath = f"/mnt/abrajbay-db-backup/{todays_date_path()}/"
+	# dPath = f"/mnt/abrajbay-db-backup/{todays_date_path()}/"
 	fPath = f"{site_name}/DbBackups/{todays_date_path()}/{os.path.basename(filename)}"
 	
-	try:
-		if not os.path.exists(dPath):
-			os.makedirs(dPath, exist_ok=True)
-  		# Saving Local
-		shutil.copy(filename, dPath)
+	# try:
+	# 	if not os.path.exists(dPath):
+	# 		os.makedirs(dPath, exist_ok=True)
+  	# 	# Saving Local
+	# 	shutil.copy(filename, dPath)
 
-	except Exception as e:
-		azLogger.error("Error copy: %s" % (e))
+	# except Exception as e:
+	# 	azLogger.error("Error copy: %s" % (e))
 
 	try:
 		# Instantiate a new BlobClient
